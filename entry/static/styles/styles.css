@@ -1,0 +1,161 @@
+body {
+  background-color: #f4f4f4;
+  margin: 0;
+  padding: 0;
+}
+h1 {
+  text-align: center;
+  color: white;
+  margin: 40px;
+}
+
+.container {
+  width: 100%;
+  height: 100%;
+  margin: auto;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  background-color: grey;
+  margin: 50px auto;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  align-items: center;
+  text-align: center;
+  align: center;
+}
+header {
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  margin: auto;
+  background-color: grey;
+  align-items: center;
+  text-align: center;
+  align: center;
+}
+nav ul {
+list-style-type: none;
+margin: 0;
+padding: 0;
+}
+
+nav ul li {
+  display: inline-block;
+  margin-right: 20px;
+}
+
+nav ul li a {
+    text-decoration: none;
+    color: #333;
+    padding: 5px 10px;
+    border: 1px solid #333;
+    border-radius: 5px;
+    float: right;
+}
+
+.list-group ul li a {
+	color: navy;
+}
+nav ul li a:hover {
+  background-color: #333;
+  color: #fff;
+}
+.btn-outline-primary {
+  color: #007bff; /* Blue color */
+  border-color: #007bff; /* Blue color */
+  background-color: transparent;
+}
+main {
+  display:inline-block;
+  justify-content: space-between;
+  align-items: center;
+  margin: auto;
+  text-align: center;
+}
+
+footer {
+  display:block;
+  justify-content: space-between;
+  align-items: center;
+  margin: auto;
+  text-align: center;
+}
+
+.logo {
+  max-width: 100px;
+  top:5px;
+  left: 1px;
+  position: fixed;
+}
+.forgot_pass {
+  color: lightblue;
+  transition: color 0.3s ease;
+}
+.forgot_pass:hover {
+  color: darkblue;
+}
+.sign_up {
+  color: lightblue;
+  transition: color 0.3s ease;
+}
+.sign_up:hover {
+  color: darkblue;
+}
+section.companies {
+  text-align: center;
+}
+#reg {
+  padding: 20px; /* Adjust padding for better spacing */
+  background-color: #007bff; /* Change to a blue color */
+  color: #fff; /* Set text color to white */
+}
+
+a {
+  padding: 10px 20px;
+  cursor: pointer;
+  margin: 10px;
+  color: #fff; /* Set link text color to white */
+}
+
+a:hover {
+  background-color: #0056b3; /* Darken the background color on hover */
+}
+form {
+    width: 50%;
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    margin: 50px auto;
+    margin-top: 20px;
+}
+.sign-up {
+	font-size: 18px;
+	margin-bottom: 20px;
+}
+
+.button-container {
+	margin-bottom: 20px;
+}
+
+#view-riders {
+	background-color: #007bff;
+	color: #fff;
+	border: none;
+	padding: 10px 20px;
+	border-radius: 5px;
+	cursor: pointer;
+}
+
+#view-riders:hover {
+	background-color: #0056b3;
+}
+
+#rider-list {
+	list-style: none;
+}
+
+/* Add more styles as needed */
+

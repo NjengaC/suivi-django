@@ -1,0 +1,524 @@
+#map {
+	height: 350px;
+}
+
+#mainNavbar{
+	padding-left:  50px;
+	padding-top: 20px;
+}
+
+.navbar-dark .navbar-brand{
+font-family: 'Source Serif Pro', serif;
+
+}
+
+.navbar-nav .nav-link{
+	font-family: 'Source Serif Pro', serif;
+
+}
+
+.display-4{
+	font-family: 'Source Serif Pro', serif;
+}
+
+.lead{
+	font-family: 'Source Serif Pro', serif;
+}
+
+.navbar.scrolled {
+    background: rgb(34, 31, 31);
+    transition: background 500ms;
+}
+
+.font-weight-light{
+	font-family: 'Source Serif Pro', serif;
+}
+body {font-family: Arial, Helvetica, sans-serif;}
+* {box-sizing: border-box;}
+
+/* Button used to open the chat form - fixed at the bottom of the page */
+.open-button {
+	background-color: #555;
+	color: white;
+	padding: 16px 20px;
+	border: none;
+	cursor: pointer;
+	opacity: 0.8;
+	position: fixed;
+	bottom: 23px;
+	right: 28px;
+	width: 280px;
+}
+
+/* The popup chat - hidden by default */
+.chat-popup {
+	display: none;
+	position: fixed;
+	bottom: 0;
+	right: 15px;
+	border: 3px solid #f1f1f1;
+	z-index: 9;
+}
+
+/* Add styles to the form container */
+.form-container {
+	max-width: 300px;
+	padding: 10px;
+	background-color: white;
+}
+
+/* Full-width textarea */
+.form-container textarea {
+	width: 100%;
+	padding: 15px;
+	margin: 5px 0 22px 0;
+	border: none;
+	background: #f1f1f1;
+	resize: none;
+	min-height: 200px;
+}
+
+/* When the textarea gets focus, do something */
+.form-container textarea:focus {
+	background-color: #ddd;
+	outline: none;
+}
+
+/* Set a style for the submit/send button */
+.form-container .btn {
+	background-color: #04AA6D;
+	color: white;
+	padding: 16px 20px;
+	border: none;
+	cursor: pointer;
+	width: 100%;
+	margin-bottom:10px;
+	opacity: 0.8;
+}
+
+/* Add a red background color to the cancel button */
+.form-container .cancel {
+	background-color: red;
+}
+
+/* Add some hover effects to buttons */
+.form-container .btn:hover, .open-button:hover {
+	opacity: 1;
+}
+body {
+  background: black;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  flex-wrap: wrap;
+  height: 100vh;
+  font-family: "Open Sans";
+}
+
+.container {
+  background: black;
+  background-color: black;
+}
+
+
+.delivery {
+  --bg-color: #ffd861;
+  --bg-color-light: #ffeeba;
+  --text-color-hover: #4C5656;
+  --box-shadow-color: rgba(255, 215, 97, 0.48);
+}
+
+.secure {
+  --bg-color: #B8F9D3;
+  --bg-color-light: #e2fced;
+  --text-color-hover: #4C5656;
+  --box-shadow-color: rgba(184, 249, 211, 0.48);
+}
+
+.tracking{
+  --bg-color: #CEB2FC;
+  --bg-color-light: #F0E7FF;
+  --text-color-hover: #fff;
+  --box-shadow-color: rgba(206, 178, 252, 0.48);
+}
+
+.secure-delivery {
+  --bg-color: #DCE9FF;
+  --bg-color-light: #f1f7ff;
+  --text-color-hover: #4C5656;
+  --box-shadow-color: rgba(220, 233, 255, 0.48);
+}
+
+.card {
+  width: 100px;
+  height: 100px;
+  background: blue;
+  border-top-right-radius: 10px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  box-shadow: 0 14px 26px rgba(0,0,0,0.04);
+  transition: all 0.3s ease-out;
+  text-decoration: none;
+}
+
+.circle {
+  width: 131px;
+  height: 131px;
+  border-radius: 50%;
+  background: #fff;
+  border: 2px solid var(--bg-color);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  z-index: 1;
+  transition: all 0.3s ease-out;
+}
+
+.circle:after {
+  content: "";
+  width: 118px;
+  height: 118px;
+  display: block;
+  position: absolute;
+  background: var(--bg-color);
+  border-radius: 50%;
+  top: 7px;
+  left: 7px;
+  transition: opacity 0.3s ease-out;
+}
+
+.circle svg {
+  z-index: 10000;
+  transform: translateZ(0);
+}
+
+.overlay {
+  width: 118px;
+  position: absolute; 
+  height: 118px;
+  border-radius: 50%;
+  background: var(--bg-color);
+  top: 70px;
+  left: 50px;
+  z-index: 0;
+  transition: transform 0.3s ease-out;
+}
+.logo {
+	width: 40px; /* Adjust the width as needed */
+	height: auto;
+	vertical-align: middle;
+}
+
+.title {
+	font-size: 24px; /* Adjust the font size as needed */
+	font-weight: bold;
+	color: #333; /* Adjust the color as needed */
+	margin-left: 10px; /* Adjust the spacing between the logo and title as needed */
+}
+.small-header {
+    height: 60vh;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #000000;
+    padding: 20px;
+    margin: 0;
+    text-align: center;
+}
+
+/* Reverse D-shape for left-aligned images */
+.lg\:flex-row-reverse .d-shape {
+    border-top-right-radius: 0;
+    border-top-left-radius: 50% 50%;
+    border-bottom-left-radius: 50% 50%;
+    border-bottom-right-radius: 0;
+}
+
+.display-4 .lead {
+  /* Other styles */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.cards-container {
+  display: flex; /* Use flexbox to display cards horizontally */
+  flex-wrap: wrap; /* Allow cards to wrap to the next line if needed */
+  justify-content: space-between; /* Distribute space between cards evenly */
+  background-color: #f3f4f6; /* Light grey background color */
+  padding: 20px; /* Adjust padding as needed */
+  border-radius: 8px; /* Optional: Add border radius for rounded corners */
+}
+
+.card {
+  flex: 0 0 calc(20% - 10px); /* Adjust card width as needed */
+  margin-bottom: 20px; /* Optional: Add margin between cards */
+}
+
+
+.policy-section {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent black background */
+  z-index: 9999; /* Ensure the section appears on top of other content */
+}
+
+.policy-content {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+}
+
+.policy-content-item {
+  background-color: rgba(255, 255, 255, 0.9); /* Semi-transparent white background */
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2); /* Optional: Add shadow effect */
+  color: #000;
+}
+
+.close-policy-btn {
+  position: absolute;
+  right: 10px; /* Adjust right position to be closer to the right */
+  background-color: #000;
+  padding: 10px 20px;
+  top: 5px;
+  color: #fff; /* Set button text color to white */
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  /* Set z-index to ensure the button appears above the policy content */
+  z-index: 1;
+}
+.smaller-text {
+  font-size: 14px; /* Adjust font size as needed */
+  color: blue; /* Set color for the smaller text */
+}
+footer {
+    background-color: #343a40;
+    color: #fff;
+    padding: 20px 0;
+    text-align: center;
+    width: 100%;
+}
+
+footer a {
+    color: #ddd;
+}
+
+footer i {
+    font-size: 1.8rem;
+}
+.pic {
+        align: center;
+        text-align: center;
+        width: 100px;
+        height: 100px;
+        float: right;
+        margin-top: 50px;
+        border-radius: 8px;
+}
+.footer-basic {
+  padding:40px 0;
+  background-color:#ffffff;
+  color:#4b4c4d;
+}
+
+.footer-basic ul {
+  padding:0;
+  list-style:none;
+  text-align:center;
+  font-size:18px;
+  line-height:1.6;
+  margin-bottom:0;
+}
+
+.footer-basic li {
+  padding:0 10px;
+}
+
+.footer-basic ul a {
+  color:inherit;
+  text-decoration:none;
+  opacity:0.8;
+}
+
+.footer-basic ul a:hover {
+  opacity:1;
+}
+
+.footer-basic .social {
+  text-align:center;
+  padding-bottom:25px;
+}
+
+.footer-basic .social > a {
+  font-size:24px;
+  width:40px;
+  height:40px;
+  line-height:40px;
+  display:inline-block;
+  text-align:center;
+  border-radius:50%;
+  border:1px solid #ccc;
+  margin:0 8px;
+  color:inherit;
+  opacity:0.75;
+}
+
+.footer-basic .social > a:hover {
+  opacity:0.9;
+}
+
+.footer-basic .copyright {
+  margin-top:15px;
+  text-align:center;
+  font-size:13px;
+  color:#aaa;
+  margin-bottom:0;
+}
+.header-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+}
+
+.left-content {
+    color: white;
+    flex: 1;
+    padding: 20px;
+}
+
+.right-content {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+}
+.d-shape {
+    width: 500px;
+    height: 300px;
+    background-color: white;
+    border-top-left-radius: 50% 50%;
+    border-bottom-left-radius: 50% 50%;
+    border-top-right-radius: 10% 10%;
+    border-bottom-right-radius: 10% 10%;
+    overflow: hidden;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 10px 20px;
+}
+
+.d-shape img {
+    width: 100%;
+    height: auto;
+    object-fit: cover;
+}
+
+.d-flex {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 40px; /* Spacing between sections */
+}
+
+.flex-lg-row {
+    flex-direction: row;
+}
+
+.flex-lg-row-reverse {
+    flex-direction: row-reverse;
+}
+
+.flex-column {
+    flex-direction: column;
+}
+
+.content {
+    flex: 1;
+    padding: 20px;
+}
+.font-bold  {
+	color: white;
+}
+.image-container {
+    width: 500px;
+    height: 300px;
+    background-color: white;
+    border-top-right-radius: 50% 50%;
+    border-bottom-right-radius: 50% 50%;
+    border-top-left-radius: 10% 10%;
+    border-bottom-left-radius: 10% 10%;
+    overflow: hidden;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* For reversed sections, flip the D-shape */
+.flex-lg-row-reverse .image-container {
+    border-top-left-radius: 50% 50%;
+    border-bottom-left-radius: 50% 50%;
+    border-top-right-radius: 10% 10%;
+    border-bottom-right-radius: 10% 10%;
+}
+
+.image-container img {
+    width: 100%;
+    height: auto;
+    object-fit: cover;
+}
+
+
+.btn-primary {
+    background-color: #007bff;
+    border: none;
+    padding: 10px 20px;
+    color: white;
+    border-radius: 4px;
+    text-transform: uppercase;
+    font-weight: bold;
+    text-align: center;
+}
+
+.btn-primary:hover {
+    background-color: #0056b3;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .d-flex {
+        flex-direction: column;
+    }
+    .d-shape {
+        width: 90%;
+        height: auto;
+        margin-top: 20px;
+    }
+    .image-container {
+        width: 100%;
+        margin-top: 20px;
+    }
+
+    .content {
+        padding: 10px;
+    }
+}
+
