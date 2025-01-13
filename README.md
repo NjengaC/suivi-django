@@ -77,42 +77,80 @@
 
 ```bash
 suivi-django/
-├── README.md
-├── __pycache__/
+├── db.sqlite3
+├── entry
+│   ├── __init__.py
+│   ├── __pycache__
+│   │   ...
+│   ├── admin.py
+│   ├── apps.py
+│   ├── migrations
+│   │   ....
+│   ├── models.py
+│   ├── static
+│   │   ├── images
+│   │   │   ...
+│   │   ├── scripts
+│   │   │   ├── dashboard.js
+│   │   │   ...
+│   │   ├── site.webmanifest
+│   │   └── styles
+│   │       ├── about1.css
+│   │       ...
+│   ├── templates
+│   │   ├── about.html
+│   │   ....
+│   ├── tests.py
+│   ├── urls.py
+│   └── views
+│       ├── __init__.py
+│       ├── __pycache__
+│       ...
+├── faqs.py
 ├── manage.py
-├── suivi/
-│   ├── __init__.py
-│   ├── settings.py
-│   ├── urls.py
-│   ├── wsgi.py
-│   ├── asgi.py
-├── core/
-│   ├── __init__.py
-│   ├── forms.py
-│   ├── models.py
-│   ├── routes/
-│   │   ├── __init__.py
-│   │   ├── admin_routes.py
-│   │   ├── auth_routes.py
-│   │   ├── main_routes.py
-│   │   ├── parcels.py
-│   │   ├── password.py
-│   │   ├── payment.py
-│   │   └── rider_routes.py
-│   ├── static/
-│   │   ├── images/
-│   │   ├── main.css
-│   │   ├── profiles.css
-│   │   ├── scripts/
-│   │   │   ├── dashboard.js
-│   │   │   ├── home.js
-│   │   │   ├── ...
-│   │   └── styles/
-│   │       ├── about1.css
-│   │       ├── ...
-│   └── templates/
-│       ├── about.html
-│       ├── admin_dashboard.html
-│       ├── ...
-├── requirements.txt
-└── tailwind.config.js
+├── parcels
+│   ├── __init__.py
+│   ├── __pycache__
+│   │   ...
+│   ├── admin.py
+│   ├── apps.py
+│   ├── forms.py
+│   ├── migrations
+│   │   ...
+│   ├── models.py
+│   ├── payment.py
+│   ├── templates
+│   │   ├── parcel_history.html
+│   │   ├── request_pickup.html
+│   │   └── track_parcel.html
+│   ├── tests.py
+│   ├── urls.py
+│   └── views.py
+├── populate.py
+├── populate_faqs.py
+├── populate_rider.py
+├── rider
+│   ├── __init__.py
+│   ├── __pycache__
+│   │   ...
+│   ├── admin.py
+│   ├── apps.py
+│   ├── backends.py
+│   ├── forms.py
+│   ├── migrations
+│   │   ...
+│   ├── models.py
+│   ├── templates
+│   │   ├── edit_rider_profile.html
+│   │   ...
+│   ├── tests.py
+│   ├── urls.py
+│   └── views.py
+└── suivi
+    ├── __init__.py
+    ├── __pycache__
+    │   ...
+    ├── asgi.py
+    ├── settings.py
+    ├── urls.py
+    └── wsgi.py
