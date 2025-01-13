@@ -154,3 +154,87 @@ suivi-django/
     ├── settings.py
     ├── urls.py
     └── wsgi.py
+
+## Installation - Django
+1. Clone the repository (or download the ZIP):
+
+```bash
+git clone https://github.com/NjengaC/suivi-django.git
+cd suivi-django
+```
+2. Create and activate a virtual environment (recommended):
+
+```bash
+python3 -m venv venv
+source venv/bin/activate      # On macOS/Linux
+venv\Scripts\activate.bat     # On Windows
+```
+3. Install dependencies:
+
+```bash
+pip install -r requirements.txt
+```
+## Database Setup - Django
+1. Login into PostgreSQL and create the database:
+
+```bash
+sudo -u postgres psql
+CREATE DATABASE suivi;
+\q
+```
+(Adjust as needed if you have different user privileges.)
+
+2. Configure environment variables (Optional)
+You may need to provide your database URI in an environment variable (e.g., DATABASE_URL):
+
+```bash
+export DATABASE_URL="postgresql://postgres:password@localhost/suivi"
+```
+3. Navigate to your Django project's root directory and update your database settings in suivi/settings.py:
+
+```python
+
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'suivi',
+        'USER': 'postgres',
+        'PASSWORD': 'password',
+        'HOST': 'localhost',
+        'PORT': 5432,
+    }
+}
+```
+4. Apply migrations to set up the initial database structure:
+
+```bash
+python manage.py migrate
+```
+## Running the Application - Django
+1. Start the Django development server:
+
+```bash
+python manage.py runserver
+```
+2. Access the application in your browser:
+
+```bash
+http://127.0.0.1:8000
+```
+(Or whichever host and port you specify.)
+
+## Versioning - Django
+Current Version: 0.1 - Django Framework
+Future updates will increment version numbers accordingly.
+
+## Legal and Regulatory Considerations
+No specific legal and regulatory considerations until deployment. However, please ensure full compliance with data protection laws (e.g., GDPR) and payment standards (e.g., PCI DSS) before going live.
+
+## License
+All content in this repository is provided as is. For production deployment, please include an appropriate license (e.g., MIT, Apache 2.0, or proprietary) to clarify usage and distribution rights.
+
+## Contact
+Project Maintainer: Victor Njenga
+Email: victorcyrus01@gmail.com
+Issues/Contributions: Please open an issue or pull request on the GitHub repository.
+Thank you for using SUIVI Parcel Sending Service App (Django Version)! Your feedback and contributions are always welcome.
