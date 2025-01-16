@@ -154,7 +154,7 @@ suivi-django/
     ├── settings.py
     ├── urls.py
     └── wsgi.py
-
+```
 ## Installation - Django
 1. Clone the repository (or download the ZIP):
 
