@@ -7,7 +7,7 @@
 <header id="cs-navigation">
     <div class="cs-container">
         <!--Nav Logo-->
-        <a href="{% url 'main:home' %}" class="cs-logo" aria-label="back to home">
+        <a href="{% url 'entry:home' %}" class="cs-logo" aria-label="back to home">
             <span class="cs-logo-text">Suivi</span>
         </a>
         <!--Navigation List-->
@@ -23,24 +23,24 @@
             <div class="cs-ul-wrapper">
                 <ul id="cs-expanded" class="cs-ul" aria-expanded="false">
                     <li class="cs-li">
-                        <a href="{% url 'main:home' %}" class="cs-li-link cs-active">Home</a>
+                        <a href="{% url 'entry:home' %}" class="cs-li-link cs-active">Home</a>
                     </li>
                     <!--  <li class="cs-li">
-                        <a href="{% url 'main:about' %}" class="cs-li-link">About</a>
+                        <a href="{% url 'entry:about' %}" class="cs-li-link">About</a>
                     </li> -->
                     <!-- <li class="cs-li">
                         <a href="" class="cs-li-link">Services</a>
                     </li> -->
                     <li class="cs-li">
-                        <a href="{% url 'main:about' %}" class="cs-li-link">About Us</a>
+                        <a href="{% url 'entry:about' %}" class="cs-li-link">About Us</a>
                     </li>
                     <li class="cs-li">
-                        <a href="{% url 'main:support' %}" class="cs-li-link">FAQ</a>
+                        <a href="{% url 'entry:support' %}" class="cs-li-link">FAQ</a>
                     </li>
                 </ul>
             </div>
         </nav>
-        <a href="{% url 'auth:login' %}" class="cs-button-solid cs-nav-button">Login</a>
+        <a href="{% url 'entry:login' %}" class="cs-button-solid cs-nav-button">Login</a>
         <a href="#cs-footer-108" class="cs-button-solid cs-nav-button">Contact Us</a>
         <!-- Uncomment to enable dark mode toggle -->
         <!-- <button id="dark-mode-toggle" aria-label="dark mode toggle">

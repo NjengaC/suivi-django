@@ -9,8 +9,9 @@ https://docs.djangoproject.com/en/5.1/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.1/ref/settings/
 """
-
+import os
 from pathlib import Path
+from decouple import config
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -20,7 +21,9 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-4_2x4+9nud3alo8yhtipmwxd79+ht_p5js#vojnr5myrtl(w!#'
+SECRET_KEY = config("SECRET_KEY")
+STRIPE_SECRET_KEY = config("STRIPE_SECRET_KEY")
+STRIPE_PUBLISHABLE_KEY = config("STRIPE_PUBLISHABLE_KEY")
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -38,6 +41,13 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'entry',
+    'rider',
+    'parcels',
+    'chat',
+    'crispy_forms',
+    'crispy_bootstrap4',
+    'widget_tweaks',
+    'channels',
 ]
 
 MIDDLEWARE = [
@@ -69,15 +79,31 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'suivi.wsgi.application'
+ASGI_APPLICATION = 'suivi.asgi.application'
 
 
+CHANNEL_LAYERS = {
+    'default': {
+        'BACKEND': 'channels.layers.InMemoryChannelLayer'
+        }
+        }
 # Database
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
 
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': BASE_DIR / 'db.sqlite3',
+#     }
+# }
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': config("DBNAME"),
+        'USER': config("DBUSER"),
+        'PASSWORD': config("DBPASSWORD"),
+        'HOST': config("DBHOST"),
+        'PORT': config("DBPORT"),
     }
 }
 
@@ -118,7 +144,30 @@ USE_TZ = True
 
 STATIC_URL = 'static/'
 
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, 'static'),  # This points to a 'static' directory in your project's root
+]
+
+# Specify the directory where static files will be collected (usually for production)
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = config("EMAIL_PORT")
+EMAIL_HOST_USER = config("EMAIL_HOST_USER")
+EMAIL_HOST_PASSWORD = config("EMAIL_HOST_PASSWORD")
+DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
+AUTH_USER_MODEL = 'entry.User'
+EMAIL_USE_TLS = True
+
+LOGIN_URL = 'entry:login'
+
+AUTHENTICATION_BACKENDS = [
+    'rider.backends.RiderBackend',
+    'django.contrib.auth.backends.ModelBackend',
+]

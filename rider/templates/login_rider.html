@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% load static %}
+    {% load widget_tweaks %}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Suivi Rider Login Form</title>
+    <link rel="stylesheet" href="{% static 'styles/login.css' %}">
+    <link rel="stylesheet" href="{% static 'styles/loginrider.css' %}">
+    <link rel="stylesheet" href="{% static 'styles/headfoot.css' %}">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body id="grad1">
+    {% include 'header.html' %}
+    <div class="row justify-content-center">
+        {% if messages %}
+            {% for message in messages %}
+                <div class="alert alert-{{ message.tags }}">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        {% endif %}
+    </div>
+
+    <!-- Login Form Section -->
+    <div class="container mt-5">
+        <div class="row justify-content-center">
+            <div class="col-md-6">
+                <div class="content-section">
+                    <form method="POST" action="{% url 'rider:login_rider' %}">
+                        {% csrf_token %}
+                        <fieldset class="form-group">
+                            <legend class="border-bottom mb-4">Login as a Rider</legend>
+                            <div class="form-group">
+                                {{ form.email|add_class:"form-control form-control-lg"|attr:"placeholder: Email" }}
+                                {% for error in form.email.errors %}
+                                    <span class="text-danger">{{ error }}</span>
+                                {% endfor %}
+                            </div>
+                            <div class="form-group">
+                                {{ form.password|add_class:"form-control form-control-lg"|attr:"placeholder: Password" }}
+                                {% for error in form.password.errors %}
+                                    <span class="text-danger">{{ error }}</span>
+                                {% endfor %}
+                            </div>
+                        </fieldset>
+                        <div class="form-group">
+                            <button type="submit" class="btn btn-outline-info">Login</button>
+                        </div>
+                        <small class="text-muted ml-2">
+                            <a href="{% url 'entry:forgot_password' %}">Forgot Password?</a><br>
+                            <a href="{% url 'rider:register_rider' %}">Register Instead</a>
+                        </small>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% include 'footer.html' %}
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>
+

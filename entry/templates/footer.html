@@ -1,5 +1,5 @@
-/suivi/entry$ cat templates/footer.html 
-<link rel="stylesheet" href="{{ url_for('static', filename='styles/headfoot.css') }}">
+{% load static %}
+<link rel="stylesheet" href="{% static 'styles/headfoot.css' %}">
 <link rel="stylesheet" href="https://unpkg.com/ionicons@6.0.2/dist/css/ionicons.min.css">
 
 <!-- ============================================ -->
@@ -10,19 +10,18 @@
     <div class="cs-container">
         <ul class="cs-ul">
             <li class="cs-li">
-                <a href="{{ url_for('main.home') }}" class="cs-link">Home</a>
+                <a href="{% url 'entry:home' %}" class="cs-link">Home</a>
             </li>
             <li class="cs-li">
-                <a href="{{ url_for('main.about') }}" class="cs-link">About</a>
+                <a href="{% url 'entry:about' %}" class="cs-link">About</a>
             </li>
             <li class="cs-li">
-                <a href="{{ url_for('main.support') }}" class="cs-link">Support</a>
+                <a href="{% url 'entry:support' %}" class="cs-link">Support</a>
             </li>
             <li class="cs-li">
                 <a href="mailto:suiviadmn@gmail.com" class="cs-link">Contact</a>
             </li>
         </ul>
     </div>
- <span class="cs-copyright">© 2024 Suivi. All Rights Reserved</span>
+    <span class="cs-copyright">© 2024 Suivi. All Rights Reserved</span>
 </footer>
-

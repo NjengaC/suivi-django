@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% load static %}
+    {% load widget_tweaks %}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Request Pickup</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" 
+    integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" 
+    crossorigin=""/>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet-routing-machine@latest/dist/leaflet-routing-machine.css" />
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" 
+    integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" 
+    crossorigin=""></script>
+    <script src="https://unpkg.com/leaflet-routing-machine@latest/dist/leaflet-routing-machine.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="{% static 'styles/styles.css' %}">
+    <link rel="stylesheet" href="{% static 'styles/headfoot.css' %}">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <style>
+        #map {
+            height: 400px;
+            width: 100%;
+        }
+    </style>
+    <script src="https://checkout.stripe.com/checkout.js"></script>
+</head>
+<body>
+    {% include 'header.html' %}
+    <div class="container rounded">
+        <div class="row">
+            {% if messages %}
+                {% for message in messages %}
+                <div class="alert alert-{{ message.tags }}">
+                    {{ message }}
+                </div>
+                {% endfor %}
+            {% endif %}
+        </div>
+        <form id="parcelForm" method="POST" action="{% url 'parcel:request_pickup_step' step %}">
+
+            {% csrf_token %}
+            {% if step == '1' %}
+            <div class="form-group">
+                <label for="delivery_location">Welcome to Suivi Delivery Company, what is your delivery location?</label>
+                {{ form.delivery_location|add_class:"form-control" }}
+                {% for error in form.delivery_location.errors %}
+                    <span class="text-danger">{{ error }}</span>
+                {% endfor %}
+            </div>
+            <button type="submit" class="btn btn-primary">Next</button>
+            {% elif step == '2' %}
+            <div class="form-group">
+                <label for="pickup_location">What is your pickup location?</label>
+                {{ form.pickup_location|add_class:"form-control" }}
+                {% for error in form.pickup_location.errors %}
+                    <span class="text-danger">{{ error }}</span>
+                {% endfor %}
+            </div>
+            <button type="submit" class="btn btn-primary" id="confirm">Next</button>
+            <p>or</p>
+            <button type="button" class="btn btn-primary" id="currentLocation">Use your current location</button><br>
+            {% elif step == '3' %}
+            <h2>Reviewing the route...</h2>
+            <div id="map"></div>
+            <p>Pickup: {{ session.pickup_coords }}</p>
+            <p>Delivery: {{ session.delivery_coords }}</p>
+
+            <button type="submit" class="btn btn-primary">Confirm to Proceed</button><br>
+            <a href="{% url 'parcel:request_pickup_step' step='2' %}" class="btn btn-primary" id="changePickupLocation">Change Pickup Location</a>
+            <a href="{% url 'parcel:request_pickup_step' step='1' %}" class="btn btn-primary" id="changeDeliveryLocation">Change Delivery Location</a>
+            {% elif step == '4' %}
+            <div class="form-group">
+                <label for="receiver_name">Receiver's Name</label>
+                {{ form.receiver_name|add_class:"form-control" }}
+                {% for error in form.receiver_name.errors %}
+                    <span class="text-danger">{{ error }}</span>
+                {% endfor %}
+            </div>
+            <div class="form-group">
+                <label for="receiver_contact">Receiver's Contact</label>
+                {{ form.receiver_contact|add_class:"form-control" }}
+                {% for error in form.receiver_contact.errors %}
+                    <span class="text-danger">{{ error }}</span>
+                {% endfor %}
+            </div>
+            <button type="button" class="btn btn-primary" id="submit-button">Submit</button>
+            <div id="payment-section" style="display: none;">
+                <h3>Proceed to Payment</h3>
+                <button type="button" id="pay-button" class="btn btn-success">Pay $10.00</button>
+            </div>
+            <div id="thank-you" class="thank-you-message" style="display: none;">
+                Thank you for your payment! You will be redirected home shortly.
+            </div>
+            {% endif %}
+        </form>
+    </div>
+    {% include 'footer.html' }
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+
+<script>
+    // Ensure this script only runs for step 3
+    {% if step == '3' %}
+    document.addEventListener('DOMContentLoaded', function () {
+        // Fetch coordinates from Django session
+        const pickupCoords = {{ request.session.pickup_coords|default:"null"|safe }};
+        const deliveryCoords = {{ request.session.delivery_coords|default:"null"|safe }};
+
+        if (!pickupCoords || !deliveryCoords) {
+            console.error("Pickup or delivery coordinates are missing in the session.");
+            alert("Coordinates for pickup and delivery locations are missing. Please go back and try again.");
+            return;
+        }
+
+        // Initialize the map
+        const map = L.map('map').setView([pickupCoords.lat, pickupCoords.lng], 13);
+        L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            maxZoom: 19,
+            attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+        }).addTo(map);
+
+        // Add markers for pickup and delivery locations
+        const pickupMarker = L.marker([pickupCoords.lat, pickupCoords.lng])
+            .addTo(map)
+            .bindPopup('Pickup Location')
+            .openPopup();
+
+        const deliveryMarker = L.marker([deliveryCoords.lat, deliveryCoords.lng])
+            .addTo(map)
+            .bindPopup('Delivery Location')
+            .openPopup();
+
+        // Add circles around the pickup and delivery locations
+        L.circle([pickupCoords.lat, pickupCoords.lng], {
+            color: 'blue',
+            fillColor: '#30f',
+            fillOpacity: 0.5,
+            radius: 500
+        }).addTo(map);
+
+        L.circle([deliveryCoords.lat, deliveryCoords.lng], {
+            color: 'red',
+            fillColor: '#f03',
+            fillOpacity: 0.5,
+            radius: 500
+        }).addTo(map);
+
+        // Add a route between the pickup and delivery locations
+        L.Routing.control({
+            waypoints: [
+                L.latLng(pickupCoords.lat, pickupCoords.lng),
+                L.latLng(deliveryCoords.lat, deliveryCoords.lng)
+            ],
+            routeWhileDragging: true
+        }).addTo(map);
+    });
+
+    // Geolocation for "Use your current location" button
+    document.addEventListener('DOMContentLoaded', function () {
+        const currentLocationButton = document.getElementById('currentLocation');
+        if (currentLocationButton) {
+            currentLocationButton.addEventListener('click', function () {
+                if (navigator.geolocation) {
+                    navigator.geolocation.getCurrentPosition(function (position) {
+                        const latitude = position.coords.latitude;
+                        const longitude = position.coords.longitude;
+
+                        // Reverse geocoding
+                        const geocodeUrl = `https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=${latitude}&lon=${longitude}`;
+                        $.getJSON(geocodeUrl, function (data) {
+                            if (data && data.display_name) {
+                                const address = data.display_name;
+
+                                // Autofill the pickup location field
+                                const pickupLocationInput = document.getElementById('pickup_location');
+                                if (pickupLocationInput) {
+                                    pickupLocationInput.value = address;
+                                }
+
+                                // Add hidden form fields for latitude and longitude
+                                const form = document.getElementById('parcelForm');
+                                if (form) {
+                                    form.appendChild(createHiddenInput('current_lat', latitude));
+                                    form.appendChild(createHiddenInput('current_lng', longitude));
+
+                                    // Automatically submit the form
+                                    form.submit();
+                                }
+                            } else {
+                                alert("Unable to resolve the location to an address. Please enter manually.");
+                            }
+                        }).fail(function () {
+                            alert("Error fetching the location. Please enter your pickup location manually.");
+                        });
+                    }, function (error) {
+                        console.error("Error fetching location: " + error.message);
+                        alert("Unable to retrieve your location. Please enter manually.");
+                    });
+                } else {
+                    alert("Geolocation is not supported by this browser.");
+                }
+            });
+        }
+    });
+
+    // Utility function to create hidden input elements
+    function createHiddenInput(name, value) {
+        const input = document.createElement('input');
+        input.setAttribute('type', 'hidden');
+        input.setAttribute('name', name);
+        input.setAttribute('value', value);
+        return input;
+    }
+    {% endif %}
+</script>
+
+
+<script>
+    $(document).ready(function() {
+        $('#submit-button').on('click', function(event) {
+            event.preventDefault();
+
+            $.ajax({
+                url: $('#parcelForm').attr('action'),
+                method: 'POST',
+                data: $('#parcelForm').serialize(),
+                success: function(response) {
+                    $('#submit-button').hide();
+                    $('#payment-section').show();
+                },
+                error: function() {
+                    alert('Failed to request pickup. Please try again.');
+                }
+            });
+        });
+
+        $('#pay-button').on('click', function() {
+            var handler = StripeCheckout.configure({
+                key: '{{ key }}',
+                locale: 'auto',
+                email: '{{ current_user.email }}',
+                token: function(token) {
+                    $.ajax({
+                        url: '/charge/',
+                        method: 'POST',
+                        data: {
+                            stripeToken: token.id,
+                            email: '{{ current_user.email }}',
+                            description: 'Payment for parcel from {{ current_user.username }} to ' + $('#receiver_name').val()
+                        },
+                        success: function(response) {
+                            $('#thank-you').show();
+                            setTimeout(function() {
+                                window.location.href = "{% url 'entry:home' %}";
+                            }, 2500);
+                        },
+                        error: function() {
+                            alert('Payment failed. Please try again.');
+                        }
+                    });
+                }
+            });
+
+            handler.open({
+                name: 'Suivi',
+                description: 'Payment for parcel from {{ current_user.username }} to ' + $('#receiver_name').val(),
+                amount: 1000
+            });
+
+            $(window).on('popstate', function() {
+                handler.close();
+            });
+        });
+    });
+</script>
+</body>
+</html>

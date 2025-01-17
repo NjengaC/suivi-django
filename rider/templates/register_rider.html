@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% load static %}
+    {% load widget_tweaks %}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rider Registration</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="{% static 'styles/registerrider.css' %}">
+    <link rel="stylesheet" href="{% static 'styles/headfoot.css' %}">
+</head>
+<body>
+    {% include 'header.html' %}
+    <div class="container-fluid" id="grad1">
+        <div class="row justify-content-center mt-0">
+            <div class="col-11 col-sm-9 col-md-7 col-lg-6 text-center p-0 mt-3 mb-2">
+                <div class="card px-0 pt-4 pb-0 mt-3 mb-3">
+                    <h2><strong>Rider Registration</strong></h2>
+                    <p>Fill all form fields to complete registration</p>
+                    <form id="msform" method="POST" action="{% url 'rider:register_rider' %}">
+                        {% csrf_token %}
+                        <fieldset>
+                            <div class="form-card">
+                                <h2 class="fs-title">Account Information</h2>
+                                <div class="form-group">
+                                    {{ form.email|add_class:"form-control"|attr:"placeholder:Email Id" }}
+                                    {% for error in form.email.errors %}
+                                    <span class="text-danger">{{ error }}</span>
+                                    {% endfor %}
+                                </div>
+                                <div class="form-group">
+                                    {{ form.password|add_class:"form-control"|attr:"placeholder:Password" }}
+                                    {% for error in form.password.errors %}
+                                    <span class="text-danger">{{ error }}</span>
+                                    {% endfor %}
+                                </div>
+                                <div class="form-group">
+                                    {{ form.confirm_password|add_class:"form-control"|attr:"placeholder:Confirm Password" }}
+                                    {% for error in form.confirm_password.errors %}
+                                    <span class="text-danger">{{ error }}</span>
+                                    {% endfor %}
+                                </div>
+                            </div>
+                            <input type="button" name="next" class="next action-button" value="Next Step"/>
+                        </fieldset>
+                        <fieldset>
+                            <div class="form-card">
+                                <h2 class="fs-title">Personal Information</h2>
+                                <div class="form-group">
+                                    {{ form.name|add_class:"form-control"|attr:"placeholder:Full Name" }}
+                                    {% for error in form.name.errors %}
+                                    <span class="text-danger">{{ error }}</span>
+                                    {% endfor %}
+                                </div>
+                                <div class="form-group">
+                                    {{ form.contact_number|add_class:"form-control"|attr:"placeholder:Contact Number" }}
+                                    {% for error in form.contact_number.errors %}
+                                    <span class="text-danger">{{ error }}</span>
+                                    {% endfor %}
+                                </div>
+                            </div>
+                            <input type="button" name="previous" class="previous action-button-previous" value="Previous"/>
+                            <input type="button" name="next" class="next action-button" value="Next Step"/>
+                        </fieldset>
+                        <fieldset>
+                            <div class="form-card">
+                                <h2 class="fs-title">Vehicle Information</h2>
+                                <div class="form-group">
+                                    {{ form.vehicle_type|add_class:"form-control"|attr:"placeholder:Vehicle Type" }}
+                                    {% for error in form.vehicle_type.errors %}
+                                    <span class="text-danger">{{ error }}</span>
+                                    {% endfor %}
+                                </div>
+                                <div class="form-group">
+                                    {{ form.vehicle_registration|add_class:"form-control"|attr:"placeholder:Vehicle Registration" }}
+                                    {% for error in form.vehicle_registration.errors %}
+                                    <span class="text-danger">{{ error }}</span>
+                                    {% endfor %}
+                                </div>
+                            </div>
+                            <input type="button" name="previous" class="previous action-button-previous" value="Previous"/>
+                            <input type="button" name="next" class="next action-button" value="Next Step"/>
+                        </fieldset>
+                        <fieldset>
+                            <div class="form-card">
+                                <h2 class="fs-title">Finish Registration</h2>
+                                <div class="form-group">
+                                    {{ form.area_of_operation|add_class:"form-control"|attr:"placeholder:Area of Operation" }}
+                                    {% for error in form.area_of_operation.errors %}
+                                    <span class="text-danger">{{ error }}</span>
+                                    {% endfor %}
+                                </div>
+                            </div>
+                            <input type="button" name="previous" class="previous action-button-previous" value="Previous"/>
+                            <div class="form-group">
+                                <input type="submit" class="btn btn-outline-info" value="Submit"/>
+                            </div>
+                        </fieldset>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% include 'footer.html' %}
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
+    <script>
+      $(document).ready(function(){
+        var current_fs, next_fs, previous_fs;
+        var opacity;
+
+        $(".next").click(function(){
+          current_fs = $(this).parent();
+          next_fs = $(this).parent().next();
+
+          $("#progressbar li").eq($("fieldset").index(next_fs)).addClass("active");
+          next_fs.show();
+          current_fs.animate({opacity: 0}, {
+            step: function(now) {
+              opacity = 1 - now;
+              current_fs.css({
+                'display': 'none',
+                'position': 'relative'
+              });
+              next_fs.css({'opacity': opacity});
+            },
+            duration: 600
+          });
+        });
+
+        $(".previous").click(function(){
+          current_fs = $(this).parent();
+          previous_fs = $(this).parent().prev();
+
+          $("#progressbar li").eq($("fieldset").index(current_fs)).removeClass("active");
+          previous_fs.show();
+          current_fs.animate({opacity: 0}, {
+            step: function(now) {
+              opacity = 1 - now;
+              current_fs.css({
+                'display': 'none',
+                'position': 'relative'
+              });
+              previous_fs.css({'opacity': opacity});
+            },
+            duration: 600
+          });
+        });
+      });
+    </script>
+</body>
+</html>
+

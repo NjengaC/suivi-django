@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% load static %}
+    {% load widget_tweaks %}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Join Today</title>
+    <link rel="stylesheet" href="{% static 'styles/register.css' %}">
+    <link rel="stylesheet" href="{% static 'styles/headfoot.css' %}">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body id="grad1">
+    {% include 'header.html' %}
+
+    <div class="row justify-content-center">
+        {% if messages %}
+            {% for message in messages %}
+                <div class="alert alert-{{ message.tags }}">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        {% endif %}
+    </div>
+
+    <!-- Join Today Form Section -->
+    <div class="container mt-5">
+        <div class="row justify-content-center">
+            <div class="col-md-6">
+                <div class="content-section">
+                    <form method="POST" action="{% url 'entry:register' %}">
+                        {% csrf_token %}
+                        <fieldset class="form-group">
+                            <legend class="border-bottom mb-4">Join Today</legend>
+                            <div class="form-group">
+                                {{ form.username.label_tag }}
+                                {{ form.username|add_class:"form-control form-control-lg" }}
+                            </div>
+                            <div class="form-group">
+                                {{ form.email.label_tag }}
+                                {{ form.email|add_class:"form-control form-control-lg" }}
+                            </div>
+                            <div class="form-group">
+                                {{ form.user_contact.label_tag }}
+                                {{ form.user_contact|add_class:"form-control form-control-lg" }}
+                            </div>
+                            <div class="form-group">
+                                {{ form.password1.label_tag }}
+                                {{ form.password1|add_class:"form-control form-control-lg" }}
+                            </div>
+                            <div class="form-group">
+                                {{ form.password2.label_tag }}
+                                {{ form.password2|add_class:"form-control form-control-lg" }}
+                            </div>
+                        </fieldset>
+                        <div class="form-group">
+                            <button type="submit" class="btn btn-outline-info">Sign Up</button>
+                        </div>
+                        <div class="border-top pt-3">
+                            <small class="text-muted">
+                                Already have an account? <a href="{% url 'entry:login' %}">Login</a>
+                            </small>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    {% include 'footer.html' %}
+</body>
+</html>

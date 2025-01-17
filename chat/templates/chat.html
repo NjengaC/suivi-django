@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Chat Demo</title>
+</head>
+<body>
+  <h2>Realtime Chat Example</h2>
+
+  <!-- Chat Log Container -->
+  <div
+    id="chat-log"
+    style="
+      border: 2px solid #ccc;
+      padding: 10px;
+      width: 50%;
+      height: 300px;
+      overflow-y: auto;
+      margin-bottom: 10px;
+    "
+  >
+    <!-- Incoming messages appear here -->
+  </div>
+
+  <!-- Message Input + Send Button -->
+  <input
+    id="chat-message-input"
+    type="text"
+    size="50"
+    placeholder="Type your message..."
+    style="padding: 5px; margin-right: 5px;"
+  />
+  <button id="chat-message-send">Send</button>
+
+  <!-- Chat Script -->
+  <script>
+    // 1. Create a new WebSocket connection to the server.
+    //    This should match your "websocket_urlpatterns" in chat.routing.py:
+    const chatSocket = new WebSocket(
+      'ws://' + window.location.host + '/ws/chat/'
+      // If you're using HTTPS in production, use 'wss://' instead of 'ws://'
+    );
+
+    // 2. Define what happens when we receive a message from the server.
+    chatSocket.onmessage = function (e) {
+      const data = JSON.parse(e.data);
+      const message = data.message;
+      const chatLog = document.getElementById('chat-log');
+
+      // Append the new message to the chat log.
+      const messageElem = document.createElement('div');
+      messageElem.innerText = message;
+      messageElem.style.margin = '5px 0';
+      chatLog.appendChild(messageElem);
+
+      // Auto-scroll to the bottom of the chat log.
+      chatLog.scrollTop = chatLog.scrollHeight;
+    };
+
+    // 3. Handle socket closure (e.g., server restarts, network issues).
+    chatSocket.onclose = function (e) {
+      console.error('Chat socket closed unexpectedly.');
+      // Optionally attempt to re-establish connection or display a notice.
+    };
+
+    // 4. Send a message to the server when "Send" is clicked.
+    const sendButton = document.getElementById('chat-message-send');
+    const messageInput = document.getElementById('chat-message-input');
+
+    sendButton.onclick = function (e) {
+      const message = messageInput.value;
+      if (message.trim().length > 0) {
+        chatSocket.send(
+          JSON.stringify({
+            message: message,
+          })
+        );
+        messageInput.value = '';
+      }
+    };
+
+    // (Optional) Send the message when pressing Enter.
+    messageInput.addEventListener('keyup', function (e) {
+      if (e.key === 'Enter') {
+        sendButton.click();
+      }
+    });
+  </script>
+</body>
+</html>
