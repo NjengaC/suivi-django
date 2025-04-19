@@ -6,20 +6,58 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Suivi User Login Form</title>
+
+    <!-- Custom CSS -->
     <link rel="stylesheet" href="{% static 'styles/login.css' %}">
     <link rel="stylesheet" href="{% static 'styles/headfoot.css' %}">
+
+    <!-- Tailwind & Bootstrap (unchanged from your snippet, using 4.0.0) -->
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
 </head>
 <body id="grad1">
     {% include 'header.html' %}
-    
+
+    <!-- Updated message display -->
     <div class="row justify-content-center">
         {% if messages %}
             {% for message in messages %}
-                <div class="alert alert-{{ message.tags }}">
-                    {{ message }}
-                </div>
+                {% if message.tags == "success" %}
+                    <div class="alert alert-success alert-dismissible fade show" role="alert">
+                        {{ message }}
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                          <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                {% elif message.tags == "error" %}
+                    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                        {{ message }}
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                          <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                {% elif message.tags == "warning" %}
+                    <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                        {{ message }}
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                          <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                {% elif message.tags == "info" %}
+                    <div class="alert alert-info alert-dismissible fade show" role="alert">
+                        {{ message }}
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                          <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                {% else %}
+                    <div class="alert alert-secondary alert-dismissible fade show" role="alert">
+                        {{ message }}
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                          <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                {% endif %}
             {% endfor %}
         {% endif %}
     </div>
@@ -31,38 +69,68 @@
                 <div class="content-section">
                     <form method="POST" action="{% url 'entry:login' %}">
                         {% csrf_token %}
+
+                        {% if form.errors %}
+                            <div class="alert alert-danger">
+                                {{ form.errors }}
+                            </div>
+                        {% endif %}
+
                         <fieldset class="form-group">
                             <legend class="border-bottom mb-4">Log In</legend>
+
                             <div class="form-group">
                                 {{ form.email.label_tag }}
                                 {{ form.email|add_class:"form-control form-control-lg" }}
                             </div>
+
                             <div class="form-group">
                                 {{ form.password.label_tag }}
                                 {{ form.password|add_class:"form-control form-control-lg" }}
                             </div>
+
                             <div class="form-check">
                                 {{ form.remember|add_class:"form-check-input" }}
                                 {{ form.remember.label_tag }}
                             </div>
                         </fieldset>
+
                         <div class="form-group">
                             <button type="submit" class="btn btn-outline-info">Login</button>
                         </div>
+
                         <small class="text-muted ml-2">
                             <a href="{% url 'entry:forgot_password' %}">Forgot Password?</a><br>
-                            Need an account? <a href="{% url 'entry:register' %}">Sign Up Now!</a>
+                            Need an account?
+                            <a href="{% url 'entry:register' %}">Sign Up Now!</a>
                         </small>
                     </form>
                 </div>
             </div>
         </div>
     </div>
+
     <div style="clear: both;"></div>
-    
+
     {% include 'footer.html' %}
+
+    <!-- Same scripts as your original snippet, plus auto-close -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+
+    <script>
+      // Auto-hide alerts after 4 seconds
+      document.addEventListener('DOMContentLoaded', function() {
+        setTimeout(function() {
+          var alerts = document.querySelectorAll('.alert');
+          alerts.forEach(function(alert) {
+            if ($(alert).hasClass('show')) {
+              $(alert).alert('close');
+            }
+          });
+        }, 4000);
+      });
+    </script>
 </body>
 </html>
 

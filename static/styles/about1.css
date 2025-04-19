@@ -940,4 +940,25 @@ body {
 .text-center {
   text-align: center !important;
 }
+/* Ensure the card group displays items in a row on larger screens */
+@media (min-width: 768px) {
+  #why-choose-suivi .cs-card-group {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+  }
+  #why-choose-suivi .cs-item {
+    flex: 0 0 48%; /* Adjust as needed to fit two items per row */
+    margin-bottom: 1rem;
+  }
+}
+
+.intro-text {
+  font-size: 100px;    /* Increase font size as desired */
+  font-weight: bold;    /* Make text bold if desired */
+  padding: 1rem;        /* Add some padding */
+  background-color: rgba(0,0,0,0.5); /* optional: background for contrast */
+  border-radius: 5px;   /* optional: rounded corners */
+  margin-bottom: 1rem;  /* spacing below introduction */
+}
 

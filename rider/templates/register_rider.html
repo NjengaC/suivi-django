@@ -12,6 +12,52 @@
 </head>
 <body>
     {% include 'header.html' %}
+
+    <!-- BEGIN: Dismissible + auto-hide messages (like on other pages) -->
+    <div class="container mt-3" id="alert-container">
+      {% if messages %}
+        {% for message in messages %}
+          {% if message.tags == "success" %}
+            <div class="alert alert-success alert-dismissible fade show" role="alert">
+              {{ message }}
+              <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+          {% elif message.tags == "error" %}
+            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+              {{ message }}
+              <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+          {% elif message.tags == "warning" %}
+            <div class="alert alert-warning alert-dismissible fade show" role="alert">
+              {{ message }}
+              <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+          {% elif message.tags == "info" %}
+            <div class="alert alert-info alert-dismissible fade show" role="alert">
+              {{ message }}
+              <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+          {% else %}
+            <div class="alert alert-secondary alert-dismissible fade show" role="alert">
+              {{ message }}
+              <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+          {% endif %}
+        {% endfor %}
+      {% endif %}
+    </div>
+    <!-- END: Dismissible + auto-hide messages -->
+
     <div class="container-fluid" id="grad1">
         <div class="row justify-content-center mt-0">
             <div class="col-11 col-sm-9 col-md-7 col-lg-6 text-center p-0 mt-3 mb-2">
@@ -103,50 +149,55 @@
         </div>
     </div>
     {% include 'footer.html' %}
+
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
+
     <script>
+      // Multi-step form logic
       $(document).ready(function(){
         var current_fs, next_fs, previous_fs;
         var opacity;
-
         $(".next").click(function(){
           current_fs = $(this).parent();
           next_fs = $(this).parent().next();
-
           $("#progressbar li").eq($("fieldset").index(next_fs)).addClass("active");
           next_fs.show();
           current_fs.animate({opacity: 0}, {
             step: function(now) {
               opacity = 1 - now;
-              current_fs.css({
-                'display': 'none',
-                'position': 'relative'
-              });
+              current_fs.css({'display': 'none','position': 'relative'});
               next_fs.css({'opacity': opacity});
             },
             duration: 600
           });
         });
-
         $(".previous").click(function(){
           current_fs = $(this).parent();
           previous_fs = $(this).parent().prev();
-
           $("#progressbar li").eq($("fieldset").index(current_fs)).removeClass("active");
           previous_fs.show();
           current_fs.animate({opacity: 0}, {
             step: function(now) {
               opacity = 1 - now;
-              current_fs.css({
-                'display': 'none',
-                'position': 'relative'
-              });
+              current_fs.css({'display': 'none','position': 'relative'});
               previous_fs.css({'opacity': opacity});
             },
             duration: 600
           });
         });
+      });
+
+      // Auto-hide alerts after 4 seconds
+      document.addEventListener('DOMContentLoaded', function() {
+        setTimeout(function() {
+          var alerts = document.querySelectorAll('.alert');
+          alerts.forEach(function(alert) {
+            if ($(alert).hasClass('show')) {
+              $(alert).alert('close');
+            }
+          });
+        }, 4000);
       });
     </script>
 </body>

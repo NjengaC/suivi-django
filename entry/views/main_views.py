@@ -6,6 +6,7 @@ from entry.models import FAQ, User
 from django.db.models import Q
 from django.contrib.auth import logout
 from rider.models import Rider
+from django.http import JsonResponse
 
 
 def home(request):
@@ -37,7 +38,6 @@ def logout_view(request):
     logout(request)
     return redirect('entry:home')
 
-
 def support(request):
     if request.method == 'POST':
         name = request.POST.get('name')
@@ -48,7 +48,6 @@ def support(request):
             messages.error(request, 'Please fill out all fields.')
         else:
             try:
-                # Send email to support
                 send_mail(
                     'User Comment',
                     f"Name: {name}\nEmail: {email}\nComment: {comment}",
@@ -59,15 +58,20 @@ def support(request):
                 messages.success(request, 'Email sent successfully! Our support team will get back to you shortly.')
             except Exception as e:
                 messages.error(request, 'Something unexpected happened! Please try again.')
+        return redirect('entry:support')
 
-        return redirect('main:support')
-
+    # Handling GET requests (FAQ search)
     search_query = request.GET.get('search_query', '').strip()
     faqs = []
     if search_query:
-        search_words = search_query.split()
         faqs = FAQ.objects.filter(
             Q(question__icontains=search_query) | Q(answer__icontains=search_query)
         )
 
+    # If it's an AJAX request, return FAQs as JSON
+    if request.headers.get('x-requested-with') == 'XMLHttpRequest':
+        faqs_data = [{'question': faq.question, 'answer': faq.answer} for faq in faqs]
+        return JsonResponse(faqs_data, safe=False)
+
+    # For regular GET requests, render the support page with FAQs
     return render(request, 'support.html', {'faqs': faqs})

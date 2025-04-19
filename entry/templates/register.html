@@ -3,24 +3,65 @@
 <head>
     {% load static %}
     {% load widget_tweaks %}
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Join Today</title>
-    <link rel="stylesheet" href="{% static 'styles/register.css' %}">
-    <link rel="stylesheet" href="{% static 'styles/headfoot.css' %}">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="{% static 'styles/register.css' %}" />
+    <link rel="stylesheet" href="{% static 'styles/headfoot.css' %}" />
+
+    <!-- Bootstrap -->
+    <link
+      rel="stylesheet"
+      href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+    />
 </head>
 <body id="grad1">
     {% include 'header.html' %}
 
-    <div class="row justify-content-center">
-        {% if messages %}
-            {% for message in messages %}
-                <div class="alert alert-{{ message.tags }}">
-                    {{ message }}
-                </div>
-            {% endfor %}
-        {% endif %}
+    <!-- Django messages (success, error, etc. from the view) -->
+    <div class="container mt-3" id="alert-container">
+      {% if messages %}
+        {% for message in messages %}
+          {% if message.tags == "success" %}
+            <div class="alert alert-success alert-dismissible fade show" role="alert">
+              {{ message }}
+              <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+          {% elif message.tags == "error" %}
+            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+              {{ message }}
+              <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+          {% elif message.tags == "warning" %}
+            <div class="alert alert-warning alert-dismissible fade show" role="alert">
+              {{ message }}
+              <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+          {% elif message.tags == "info" %}
+            <div class="alert alert-info alert-dismissible fade show" role="alert">
+              {{ message }}
+              <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+          {% else %}
+            <div class="alert alert-secondary alert-dismissible fade show" role="alert">
+              {{ message }}
+              <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+          {% endif %}
+        {% endfor %}
+      {% endif %}
     </div>
 
     <!-- Join Today Form Section -->
@@ -30,35 +71,66 @@
                 <div class="content-section">
                     <form method="POST" action="{% url 'entry:register' %}">
                         {% csrf_token %}
+
+                        <!-- Show per-field errors in separate alerts -->
+                        {% if form.errors %}
+                          {% for field in form %}
+                            {% for error in field.errors %}
+                              <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                                <strong>{{ field.label }}:</strong> {{ error }}
+                                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                  <span aria-hidden="true">&times;</span>
+                                </button>
+                              </div>
+                            {% endfor %}
+                          {% endfor %}
+                          {% for error in form.non_field_errors %}
+                            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                              {{ error }}
+                              <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                              </button>
+                            </div>
+                          {% endfor %}
+                        {% endif %}
+
                         <fieldset class="form-group">
                             <legend class="border-bottom mb-4">Join Today</legend>
+
                             <div class="form-group">
                                 {{ form.username.label_tag }}
                                 {{ form.username|add_class:"form-control form-control-lg" }}
                             </div>
+
                             <div class="form-group">
                                 {{ form.email.label_tag }}
                                 {{ form.email|add_class:"form-control form-control-lg" }}
                             </div>
+
                             <div class="form-group">
                                 {{ form.user_contact.label_tag }}
                                 {{ form.user_contact|add_class:"form-control form-control-lg" }}
                             </div>
+
                             <div class="form-group">
                                 {{ form.password1.label_tag }}
                                 {{ form.password1|add_class:"form-control form-control-lg" }}
                             </div>
+
                             <div class="form-group">
                                 {{ form.password2.label_tag }}
                                 {{ form.password2|add_class:"form-control form-control-lg" }}
                             </div>
                         </fieldset>
+
                         <div class="form-group">
                             <button type="submit" class="btn btn-outline-info">Sign Up</button>
                         </div>
+
                         <div class="border-top pt-3">
                             <small class="text-muted">
-                                Already have an account? <a href="{% url 'entry:login' %}">Login</a>
+                                Already have an account?
+                                <a href="{% url 'entry:login' %}">Login</a>
                             </small>
                         </div>
                     </form>
@@ -66,7 +138,26 @@
             </div>
         </div>
     </div>
-    
+
     {% include 'footer.html' %}
+
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js"
+            integrity="sha384-hZWANZkwhBhK4I2Ih7Y6Ea1nbAHh2Is4AMz3C4ppgBB1x9OgUZAsP0n53P3kHcZh"
+            crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"
+            integrity="sha384-oS3vJWv+0UjzBbhSwk59G8eT/h/jy3czY265qsN6Ea0ny5T32lIn2Gx5q0u10a4b"
+            crossorigin="anonymous"></script>
+
+    <script>
+      // Auto-hide alerts after 4 seconds
+      document.addEventListener('DOMContentLoaded', function() {
+        setTimeout(function() {
+          var alerts = document.querySelectorAll('.alert');
+          alerts.forEach(function(alert) {
+            $(alert).alert('close');
+          });
+        }, 4000);
+      });
+    </script>
 </body>
 </html>

@@ -109,7 +109,6 @@ def view_rider_history(request):
         'closed_orders': closed_orders,
     })
 
-@login_required
 @require_POST
 def toggle_rider_status(request):
     try:

@@ -44,9 +44,9 @@
 
     <section id="why-choose-suivi">
         <div class="cs-container">
-        <div class="d-flex text-white">
-                            Fueled by innovation and a passion for streamlined logistics, Suivi is more than just a delivery company. We're a comprehensive solution for all your parcel shipping needs.
-                                            </div>
+    <div class="d-flex text-white intro-text">
+          Fueled by innovation and a passion for streamlined logistics, Suivi is more than just a delivery company. We're a comprehensive solution for all your parcel shipping needs.
+              </div>
             <div class="cs-content">
                 <div class="cs-flex">
                     <h2 class="cs-title">Why Choose Suivi for Your Delivery Needs?</h2>
@@ -110,7 +110,7 @@
                             <img class="cs-profile" src="https://csimg.nyc3.digitaloceanspaces.com/Reviews/profile2.jpg" decoding="async" alt="profile" width="50" height="50" aria-hidden="true">
                         </picture>
                         <span class="cs-name">
-                            John Onyango
+                            Esther Kimani
                             <span class="cs-job"></span>
                         </span>
                     </div>
@@ -126,7 +126,7 @@
                             <img class="cs-profile" src="https://csimg.nyc3.digitaloceanspaces.com/Reviews/profile3.png" decoding="async" alt="profile" width="50" height="50" aria-hidden="true">
                         </picture>
                         <span class="cs-name">
-                            Esther Kimani
+                            John Onyango
                             <span class="cs-job"></span>
                         </span>
                     </div>
@@ -148,11 +148,12 @@
             </div>
                 <li class="cs-item flex flex-col justify-center w-full px-8 mx-6 my-12 text-center">
                     <picture class="cs-picture">
-                        <source media="(max-width: 767px)" srcset="../images/profile.jpg">
-                        <source media="(min-width: 768px)" srcset="../images/profile.jpg">
+                        <source media="(max-width: 767px)" srcset="{% static 'images/profile.jpg' %}">
+                        <source media="(min-width: 768px)" srcset="{% static 'images/profile2.jpg' %}">
                         <img aria-hidden="true" loading="lazy" decoding="async"
+                             src="{% static 'images/profile.jpg' %}"
                              src="https://csimg.nyc3.cdn.digitaloceanspaces.com/Images/People/chef3.jpg"
-                             alt="chef" width="305" height="335"
+                             alt="Profile Picture" width="305" height="335"
                              class="self-center flex-shrink-0 w-24 h-24 -mt-12 bg-center bg-cover rounded-full dark:bg-gray-500">
                     </picture>
                     <div class="cs-info flex-1 my-4">

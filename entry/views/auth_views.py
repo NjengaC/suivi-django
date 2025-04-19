@@ -31,7 +31,7 @@ def register(request):
 
             if existing_user:
                 messages.error(request, 'Username, email, or contact already exists.')
-                return redirect('auth:register')
+                return redirect('entry:register')
 
             # Create the user
             user = User.objects.create_user(
@@ -42,7 +42,7 @@ def register(request):
             )
 
             # Send welcome email
-            welcome_msg = render_to_string('welcome_user_mail.html', {'user': user, 'login_url': request.build_absolute_uri('auth:login')})
+            welcome_msg = render_to_string('welcome_user_mail.html', {'user': user, 'login_url': request.build_absolute_uri('entry:login')})
             send_mail(
                 'Welcome to Suivi!',
                 '',
@@ -52,8 +52,7 @@ def register(request):
                 fail_silently=False
             )
             messages.success(request, 'Account created successfully. Please log in.')
-            return redirect('auth:login')
-    messages.error(request, 'Fallen back to this point!')
+            return redirect('entry:login')
     return render(request, 'register.html', {'title': 'Register', 'form': form})
 @csrf_protect
 def login_view(request):
